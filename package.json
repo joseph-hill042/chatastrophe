@@ -1,0 +1,8 @@
+{
+  "name": "chatastrophe",
+  "version": "1.0.0",
+  "description": "Progressive Web App chat application with react",
+  "main": "index.js",
+  "author": "Joseph Hill",
+  "license": "MIT"
+}
