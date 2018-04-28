@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import icon from '../images/icon.png';
 
 class LoginContainer extends Component {
     render() {
         return (
             <div id="LoginContainer" className="inner-container">
                 <div id="Header">
-                    <img src="./dist/images/icon.png" alt="logo" />
+                    <img src={icon} alt="logo" />
                     <h1>Chatastrophe</h1>
                 </div>
                 <form>
