@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { auth } from 'firebase';
 import Header from './Header.jsx';
 
 class LoginContainer extends Component {
     state = {
         email: '',
-        password: ''
+        password: '',
+        error: ''
     };
 
     handleEmailChange = (e) => {
@@ -15,9 +17,41 @@ class LoginContainer extends Component {
         this.setState({ password: e.target.value });
     };
 
+    login() {
+        auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            if (err.code === 'auth/user-not-found') {
+                this.signup();
+            } else {
+                this.setState({ error: 'Error logging in.' });
+            }
+        });
+    }
+
+    signup() {
+        auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+            this.setState({ error: 'Error signing up.' });
+        });
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        this.setState({ error: '' });
+        if (this.state.email && this.state.password) {
+            this.login();
+        } else {
+            this.setState({ error: 'Please fill in both fields.' });
+        }
     };
 
     render() {
@@ -38,6 +72,7 @@ class LoginContainer extends Component {
                         value={this.state.password}
                         placeholder="Your password"
                     />
+                    <p className="error">{this.state.error}</p>
                     <button className="red light" type="submit">Login</button>
                 </form>
             </div>
