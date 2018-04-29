@@ -1,11 +1,16 @@
 const merge = require('webpack-merge');
 const webpack = require('webpack');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: "[name].bundle.js"
+    },
     plugins: [
         new UglifyJSPlugin({
             uglifyOptions: {
@@ -21,7 +26,8 @@ module.exports = merge(common, {
         }),
         new HtmlWebpackPlugin({
             inject: true,
-            template: __dirname + "/public/index.html",
+            template: path.join(__dirname, "/public/index.html"),
+            favicon: path.join(__dirname, "/public/favicon.ico"),
             minify: {
                 removeComments: true,
                 collapseWhitespace: true,

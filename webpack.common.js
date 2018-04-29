@@ -1,14 +1,9 @@
-const path = require('path');
+const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     context: __dirname,
     entry:  './src/index.js',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: "[name].bundle.js",
-        publicPath: "/dist/",
-    },
     module: {
         rules: [
             {
@@ -38,7 +33,7 @@ module.exports = {
                 }
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|ico)$/,
                 loaders: [
                     {
                         loader: "url-loader",
@@ -53,6 +48,11 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist'])
+        new CleanWebpackPlugin(['dist']),
+        new webpack.DefinePlugin({
+            FB_API_KEY: JSON.stringify(process.env.FB_API_KEY),
+            DB_URL: JSON.stringify(process.env.DB_URL),
+            MSG_SENDER_ID: JSON.stringify(process.env.MSG_SENDER_ID)
+        })
     ]
 };
